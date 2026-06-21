@@ -1,7 +1,7 @@
 syntax = "proto3";
-package = "compute";
+package compute;
 
-service ExecuteEngine {
+service ExecutionEngine {
     rpc ExecuteTask(TaskRequest) returns (TaskResponse);
     rpc StreamHeartBeat (NodeStatus) returns (Empty);
 }
@@ -9,21 +9,21 @@ service ExecuteEngine {
 message TaskRequest {
     string task_id = 1;
     string runtime = 2;
-    string entrypoint = 3;out_output = 2;
-    bytes stderr_output = 3;
-    int64 execution_time
+    string entry_point = 3;
     bytes byte_code = 4;
     int64 memory_limit_bytes = 5;
     int32 cpu_share = 6;
 }
 message TaskResponse {
     string task_id = 1;
-    bytes std = 4;
+    bytes stdout_output = 2;
+    bytes stderr_output = 3;
+    int64 execution_time = 4;
     string exit_code = 5;
 }
 message NodeStatus{
     string node_id = 1;
     double total_cpu_usage = 2;
-    int64 available_ram_bytes = 33;
+    int64 available_ram_bytes = 3;
 }
 message Empty {}
