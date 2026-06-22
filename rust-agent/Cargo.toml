@@ -1,12 +1,16 @@
 [package]
 name = "rust-agent"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
 
 [dependencies]
-tokio = { version = "1.0" , features = ["full"] }
+tokio = { version = "1.38", features = ["rt-multi-thread", "macros", "process", "sync", "signal"] }
 tonic = "0.12"
-prost = "0.13"
+prost = "0.12"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+async-trait = "0.1"
+thiserror = "1.0"
 
 [build-dependencies]
 tonic-build = "0.12"
