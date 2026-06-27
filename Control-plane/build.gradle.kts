@@ -1,12 +1,12 @@
 plugins {
-    kotlin("jvm") version "1.9.25"
-    kotlin("plugin.spring") version "1.9.25"
+    java
     id("org.springframework.boot") version "3.5.16"
     id("io.spring.dependency-management") version "1.1.7"
+    id("com.google.protobuf") version "0.9.4"
 }
 
 group = "com.ares"
-version = "0.0.1-SNAPSHOT"
+version = "2.0.0"
 description = "Control-plane"
 
 java {
@@ -20,17 +20,52 @@ repositories {
 }
 
 dependencies {
+
+    // Spring
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+
+    // gRPC
+    implementation("io.grpc:grpc-netty-shaded:1.64.0")
+    implementation("io.grpc:grpc-protobuf:1.64.0")
+    implementation("io.grpc:grpc-stub:1.64.0")
+    implementation("io.grpc:grpc-services:1.64.0")
+
+    // Protobuf
+    implementation("com.google.protobuf:protobuf-java:3.25.3")
+
+    // Needed for generated grpc code
+    compileOnly("org.apache.tomcat:annotations-api:6.0.53")
+
+    // Tests
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.25.3"
+    }
+
+    plugins {
+        create("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.64.0"
+        }
+    }
+
+    generateProtoTasks {
+        all().forEach { task ->
+            task.plugins {
+                create("grpc")
+            }
+        }
+    }
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDir("proto")
+        }
     }
 }
 
