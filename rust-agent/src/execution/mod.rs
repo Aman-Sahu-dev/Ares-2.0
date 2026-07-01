@@ -1,5 +1,5 @@
 mod engine;
 mod shell;
 
-pub use engine::{TaskExecutor,ExecutorError};
-pub use shell::ShellExexutor;
+pub use engine::{TaskExecutor,ExecutionError};
+pub use shell::ShellExecutor;

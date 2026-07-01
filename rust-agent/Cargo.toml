@@ -6,7 +6,7 @@ edition = "2021"
 [dependencies]
 tokio = { version = "1.38", features = ["rt-multi-thread", "macros", "process", "sync", "signal"] }
 tonic = "0.12"
-prost = "0.12"
+prost = "0.13"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
 async-trait = "0.1"

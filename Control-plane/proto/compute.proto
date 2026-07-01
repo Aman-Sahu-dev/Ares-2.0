@@ -1,24 +1,26 @@
 syntax = "proto3";
-package compute;
 
 option java_multiple_files = true;
 option java_package = "ares.compute";
 option java_outer_classname = "ComputeProto";
 
-service ExecutionEngine {
-  rpc ExecuteTask(TaskSpec) returns (TaskResult);
+package compute;
+
+service ComputeEngine {
+  rpc ExecuteTask (TaskSpec) returns (TaskResult);
 }
 
 message TaskSpec {
   string runtime = 1;
   string entry_point = 2;
   bytes byte_code = 3;
-  int64 memory_limit_bytes = 4;
-  int32 cpu_share = 5;
+  uint64 memory_limit_bytes = 4;
+  uint32 cpu_shares = 5;
 }
+
 message TaskResult {
-  bytes stdout_output =1;
-  bytes stderr_output = 2;
-  int64 execution_time_ns = 3;
-  string exit_code = 4;
+  string stdout = 1;
+  string stderr = 2;
+  int32 exit_code = 3;
+  uint64 execution_time_ns = 4;
 }
